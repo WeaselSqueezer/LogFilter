@@ -1,0 +1,41 @@
+#  _                 ______ _ _ _            
+# | |               |  ____(_) | |           
+# | |     ___   __ _| |__   _| | |_ ___ _ __ 
+# | |    / _ \ / _` |  __| | | | __/ _ \ '__|
+# | |___| (_) | (_| | |    | | | ||  __/ |   
+# |______\___/ \__, |_|    |_|_|\__\___|_|   
+#               __/ |                        
+#              |___/     Keep your Log clean!
+#
+
+# Per default, there is no activated rule. If you want to activate a predefined rule, just remove the # at beginning of the line. 
+# If you want to add your own rules, just add it at the end. Regular expressions are used to describe the rules.
+
+# Note: In some situations, it's useful to see all errors, so be careful with it.
+
+#--------------#
+# Filter-Rules #
+#--------------#
+filter-rules:
+# Filter all Chat messages
+#- '^<(([A-Za-z0-9_]{3,16}))> (.{0,})'
+
+# Filter all "lost connetion" messages
+#- '^/([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\:([0-9]{1,5}) lost connection'
+
+# Filter all "Player issued server command" messages. Useful for example for AuthMe in fact of hidding passwords.
+#- '([A-Za-z0-9_]{3,16}) issued server command: /(.{0,})'
+
+# Filter "Read timed out" messages
+#- 'Read timed out'
+
+# Filter all login messages
+#- '([A-Za-z0-9_]{3,16})\[/([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\:([0-9]{1,5})\] logged in with entity id ([0-9]{0,}) at \(\[(.{0,})\] ([0-9-+.]{0,}), ([0-9-+.]{0,}), ([0-9-+.]{0,})\)'
+
+# Filter player disconnect messages
+#- '([A-Za-z0-9_]{3,16}) lost connection: disconnect.(.{0,})'
+
+# Filter all "Connection reset" messages
+#- 'Connection reset'
+
+
