@@ -2,7 +2,10 @@ package de.logfilter;
 
 /* Java related */
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /* Bukkit related */
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,6 +25,9 @@ public class LogFilter extends JavaPlugin {
 	
 	/* Logger */
 	public static Logger log = Logger.getLogger("Minecraft");
+	
+	/* Filter rules */
+	public static final List<Pattern> rules = new ArrayList<Pattern>();
 	
 	/* LogInjector */
 	private LogInjector injector;
@@ -101,5 +107,11 @@ public class LogFilter extends JavaPlugin {
 		
 		/* Load configuration */
 		LogFilter.config = YamlConfiguration.loadConfiguration(configuration_file);
+		
+		/* Compile patterns for better efficiency */
+		List<String> filter_rules = LogFilter.config.getStringList("filter-rules");
+		for(String rule : filter_rules) {
+			rules.add(Pattern.compile(rule));
+		}
 	}
 }

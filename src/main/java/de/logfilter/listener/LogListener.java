@@ -1,6 +1,6 @@
 package de.logfilter.listener;
 
-import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,17 +17,14 @@ public class LogListener implements Listener {
 		/*  General */
 		String message = event.getMessage();
 		
-		/* Get rules */
-		List<String> rules = LogFilter.config.getStringList("filter-rules");
-		
-		/* Check if message match a rule */
-		for(String rule : rules) {
-			/* Check if message matches rule */
-			if(message.matches(rule)) 
+		/* Iterate over all patterns */
+		for(Pattern pattern : LogFilter.rules) {
+			/* Check if message matches pattern */
+			if(pattern.matcher(message).matches())
 				event.setCancelled(true);
 				break;
 		}
-		
+				
 		/* Increment total statistics */
 		Statistics.incrementTotal();
 		
