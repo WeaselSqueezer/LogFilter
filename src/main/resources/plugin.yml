@@ -1,4 +1,7 @@
 name: LogFilter
 version: 0.1
+description: Filter log entries and keep your log clean
 author: DaAllexx
+
+load: STARTUP
 main: de.logfilter.LogFilter
