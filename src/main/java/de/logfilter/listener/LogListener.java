@@ -28,11 +28,11 @@ public class LogListener implements Listener {
 				break;
 		}
 		
-		/* Increment statistics */
-		if(event.isCancelled()) {
+		/* Increment total statistics */
+		Statistics.incrementTotal();
+		
+		/* Increment filtered entries if event was cancelled */
+		if(event.isCancelled())
 			Statistics.incrementFiltered();
-		} else {
-			Statistics.incrementTotal();
-		}
 	}
 }
