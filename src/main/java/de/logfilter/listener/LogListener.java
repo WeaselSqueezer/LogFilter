@@ -14,21 +14,19 @@ public class LogListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onLogging(LoggingEvent event) {
-		/*  General */
+		if(!LogFilter.enabled) 
+			return;
+		
 		String message = event.getMessage();
 		
-		/* Iterate over all patterns */
 		for(Pattern pattern : LogFilter.rules) {
-			/* Check if message matches pattern */
 			if(pattern.matcher(message).matches())
 				event.setCancelled(true);
 				break;
 		}
 				
-		/* Increment total statistics */
 		Statistics.incrementTotal();
 		
-		/* Increment filtered entries if event was cancelled */
 		if(event.isCancelled())
 			Statistics.incrementFiltered();
 	}

@@ -8,7 +8,6 @@ import org.bukkit.plugin.PluginManager;
 
 import de.logfilter.filter.ConsoleFilter;
 
-
 public class LogInjector {
 	
 	private PluginManager pm;

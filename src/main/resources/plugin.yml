@@ -1,7 +1,36 @@
+#  _                 ______ _ _ _            
+# | |               |  ____(_) | |           
+# | |     ___   __ _| |__   _| | |_ ___ _ __ 
+# | |    / _ \ / _` |  __| | | | __/ _ \ '__|
+# | |___| (_) | (_| | |    | | | ||  __/ |   
+# |______\___/ \__, |_|    |_|_|\__\___|_|   
+#               __/ |                        
+#              |___/     Keep your Log clean!
+#
+
 name: LogFilter
-version: 0.1
+version: 0.2
 description: Filter log entries and keep your log clean
 author: DaAllexx
 
 load: STARTUP
 main: de.logfilter.LogFilter
+
+commands:
+  logfilter:
+    description: Related commands for LogFilter
+    aliases: [lf, log]
+    permission: LogFilter.commands
+    permission-message: You don't have permission for \"/logfilter\"
+    usage: |
+      Command Usage:
+      /logfilter <enable/disable> - Enables or disables filtering of log entries
+
+permissions:
+  LogFilter.*:
+    description: Gives access to all LogFilter commands/features
+    children:
+      LogFilter.commands: true
+  LogFilter.commands:
+    description: Allows to execute all LogFilter commands
+

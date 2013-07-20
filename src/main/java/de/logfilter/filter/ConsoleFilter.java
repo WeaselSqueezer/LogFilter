@@ -16,13 +16,8 @@ public class ConsoleFilter implements Filter {
 	}
 
 	public boolean isLoggable(LogRecord record) {
-		/* Construct event */
 		LoggingEvent event = new LoggingEvent(record.getMessage());
-		
-		/* Call event */
 		pm.callEvent(event);
-		
-		/* Check if event is cancelled and return it*/
 		return (event.isCancelled()) ? false : true;
 	}
 }

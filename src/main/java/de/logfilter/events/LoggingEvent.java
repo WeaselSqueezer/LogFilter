@@ -5,16 +5,10 @@ import org.bukkit.event.HandlerList;
 
 public class LoggingEvent extends Event {
 	
-	/* HandlerList */
 	public static final HandlerList handlers = new HandlerList();
-	
-	/* Message */
 	private String message;
-	
-	/* isCancelled */
 	private boolean isCancelled = false;
 	
-	/* Constructor */
 	public LoggingEvent(String message) {
 		this.message = message;
 	}
