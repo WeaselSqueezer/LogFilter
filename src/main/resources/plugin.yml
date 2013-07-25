@@ -19,7 +19,7 @@ main: de.logfilter.LogFilter
 commands:
   logfilter:
     description: Related commands for LogFilter
-    aliases: [lf, log]
+    aliases: lf
     permission: LogFilter.commands
     permission-message: You don't have permission for \"/logfilter\"
     usage: |
@@ -27,10 +27,12 @@ commands:
       /logfilter <enable/disable> - Enables or disables filtering of log entries
 
 permissions:
-  LogFilter.*:
+  logfilter.*:
     description: Gives access to all LogFilter commands/features
     children:
-      LogFilter.commands: true
-  LogFilter.commands:
+      logfilter.commands: true
+      logfilter.notify: true
+  logfilter.commands:
     description: Allows to execute all LogFilter commands
-
+  logfilter.notify:
+    description: Sends players messages if plugin updates are available

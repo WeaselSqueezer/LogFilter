@@ -13,7 +13,7 @@ public class LogFilterCommands implements CommandExecutor {
 		if(!cmd.getName().equalsIgnoreCase("logfilter"))
 			return false;
 		
-		if(!sender.hasPermission("LogFilter.commands"))
+		if(!sender.hasPermission("logfilter.commands"))
 			return false;
 		
 		if(args.length != 1)
