@@ -16,12 +16,16 @@
 #--------------#
 # Filter-Rules #
 #--------------#
+
 filter-rules:
 # Filter all Chat messages
 #- '^<(([A-Za-z0-9_]{3,16}))> (.{0,})'
 
 # Filter all "lost connetion" messages
 #- '^/([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\:([0-9]{1,5}) lost connection'
+
+# Filter "Reached End of Stream for {ip}" messages
+#- 'Reached end of stream for /([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
 
 # Filter all "Player issued server command" messages. Useful for example for AuthMe in fact of hidding passwords.
 #- '([A-Za-z0-9_]{3,16}) issued server command: /(.{0,})'
@@ -35,7 +39,13 @@ filter-rules:
 # Filter player disconnect messages
 #- '([A-Za-z0-9_]{3,16}) lost connection: disconnect.(.{0,})'
 
+# Filter messages like "§ePLAYER left the game."
+#- '^(§e)([A-Za-z0-9_]{3,16}) left the game.'
+
 # Filter all "Connection reset" messages
 #- 'Connection reset'
 
+# Console saving messages
+#- 'CONSOLE: Forcing save\.\..*'
+#- 'CONSOLE: Save complete\..*'
 
