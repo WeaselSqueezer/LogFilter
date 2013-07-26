@@ -20,9 +20,10 @@ public class LogListener implements Listener {
 		String message = event.getMessage();
 		
 		for(Pattern pattern : LogFilter.rules) {
-			if(pattern.matcher(message).matches())
+			if(pattern.matcher(message).matches()) {
 				event.setCancelled(true);
 				break;
+			}
 		}
 				
 		Statistics.incrementTotal();

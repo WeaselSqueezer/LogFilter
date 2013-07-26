@@ -17,7 +17,6 @@ import de.logfilter.stats.Statistics;
 
 public class LogFilter extends JavaPlugin {
 	
-	public static final String VERSION = "0.2";
 	public static boolean enabled = true;
 	public static Logger log = Logger.getLogger("Minecraft");
 	public static final ArrayList<Pattern> rules = new ArrayList<Pattern>();
@@ -96,7 +95,7 @@ public class LogFilter extends JavaPlugin {
 		
 		/* Compile patterns for better efficiency */
 		for(String rule : filter_rules) {
-			
+
 			/* Add rules to list and precompile it */
 			rules.add(Pattern.compile(rule));
 		}
