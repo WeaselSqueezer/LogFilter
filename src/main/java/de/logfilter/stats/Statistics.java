@@ -6,8 +6,9 @@ import org.mcstats.Metrics.Plotter;
 
 public class Statistics {
 	
-	public static int total    = 0;
-	public static int filtered = 0;
+	private static long total    = 0;
+	private static long filtered = 0;
+	private static long replaced = 0;
 	
 	private Metrics metrics;
 	
@@ -23,7 +24,7 @@ public class Statistics {
 
 			@Override
 			public int getValue() {
-				return total;
+				return (int) total;
 			}
 			
 		});
@@ -32,7 +33,16 @@ public class Statistics {
 
 			@Override
 			public int getValue() {
-				return filtered;
+				return (int) filtered;
+			}
+			
+		});
+		
+		graph.addPlotter(new Plotter("Replaced entries") {
+
+			@Override
+			public int getValue() {
+				return (int) replaced;
 			}
 			
 		});
@@ -44,5 +54,9 @@ public class Statistics {
 	
 	public static void incrementFiltered() {
 		filtered++;
+	}
+	
+	public static void incrementReplaced() {
+		replaced++;
 	}
 }

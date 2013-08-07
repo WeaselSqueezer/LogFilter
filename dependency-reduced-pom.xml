@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.logfilter</groupId>
   <artifactId>LogFilter</artifactId>
-  <version>0.4</version>
+  <version>0.5</version>
   <build>
     <defaultGoal>clean install</defaultGoal>
     <plugins>

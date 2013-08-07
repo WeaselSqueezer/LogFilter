@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Updater {
 	
-	private final static String UPDATE_SERVICE = "http://service.daallexx.eu/";
+	private final static String UPDATE_SERVICE = "http://service.daallexx.eu/mcupdate/";
 	private final static String CHECK_URL = "check/%s/%s";
 	private final static String UPDATE_URL = "get/%s/%s/";
 	private final static String SERVER_MOD = "bukkit";
@@ -27,9 +27,11 @@ public class Updater {
 		try {
 			URL url = new URL(String.format(UPDATE_SERVICE.concat(CHECK_URL), SERVER_MOD, plugin.getName()));
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-			//TODO ...
+			conn.connect();
 			
+			if(conn.getResponseCode() != 200)
+				return;
+						
 		} catch(IOException ex) {
 			
 		}

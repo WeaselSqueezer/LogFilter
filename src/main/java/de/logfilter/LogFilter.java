@@ -3,8 +3,8 @@ package de.logfilter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,10 +19,10 @@ public class LogFilter extends JavaPlugin {
 	
 	public static boolean enabled = true;
 	public static Logger log = Logger.getLogger("Minecraft");
-	public static final ArrayList<Pattern> rules = new ArrayList<Pattern>();
+	public static final ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
 	
 	private LogInjector injector;
-	public static YamlConfiguration config;
+	private YamlConfiguration config;
 	public Statistics statistics;
 	
 	
@@ -34,9 +34,7 @@ public class LogFilter extends JavaPlugin {
 		/* Load configuration */
 		this.loadConfiguration();
 				
-		/* Injection formatter */
-		log.info("[LogFilter] Injecting filters...");
-		
+		/* Injecting LogFilter */
 		try {
 			injector = new LogInjector(this.getServer().getPluginManager());
 			injector.inject();
@@ -45,8 +43,6 @@ public class LogFilter extends JavaPlugin {
 			return;
 		}
 		
-		log.info("[LogFilter] Injected filters successfully!");
-				
 		/* Metrics */
 		try {
 			
@@ -88,16 +84,24 @@ public class LogFilter extends JavaPlugin {
 			this.saveDefaultConfig();
 		
 		/* Load configuration */
-		LogFilter.config = YamlConfiguration.loadConfiguration(configuration_file);
+		this.config = YamlConfiguration.loadConfiguration(configuration_file);
 		
-		/* Get list of rules from configuration */
-		List<String> filter_rules = LogFilter.config.getStringList("filter-rules");
+		/* Get list of rules from configuration */		
+		List<Map<?, ?>> filter_rules = this.config.getMapList("filter-rules");
 		
-		/* Compile patterns for better efficiency */
-		for(String rule : filter_rules) {
-
-			/* Add rules to list and precompile it */
-			rules.add(Pattern.compile(rule));
+		/* Iterate over rules */
+		for(Map<?, ?> map : filter_rules) {
+					
+			String rule = (String) map.get("rule");
+			boolean replace = map.containsKey("replace") ? (Boolean) map.get("replace") : false;
+			
+			if(!replace) {
+				LogFilter.rules.add(new LoggingRule(rule));
+				continue;
+			}
+			
+			String replacement = (String) map.get("replacement");
+			LogFilter.rules.add(new LoggingRule(rule, true, replacement));
 		}
 	}
 }
