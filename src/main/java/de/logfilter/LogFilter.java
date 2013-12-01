@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +23,7 @@ public class LogFilter extends JavaPlugin {
 	public static final ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
 	
 	private LogInjector injector;
-	private YamlConfiguration config;
+	private FileConfiguration config;
 	public Statistics statistics;
 	
 	
@@ -31,7 +32,7 @@ public class LogFilter extends JavaPlugin {
 		/* Time */
 		long time = System.currentTimeMillis();
 		
-		/* Load configuration */
+		/* Load configuration and rules */
 		this.loadConfiguration();
 				
 		/* Injecting LogFilter */
@@ -75,21 +76,16 @@ public class LogFilter extends JavaPlugin {
 		log.info("[LogFilter] Filters removed!");
 	}
 	
-	public void loadConfiguration() {
-		/* Define file */
-		File configuration_file = new File(this.getDataFolder(), "config.yml");
+	private void loadConfiguration() {
+		File configFile = new File(this.getDataFolder(), "config.yml");
 		
-		/* Check if configuration exists */
-		if(!configuration_file.exists())
+		if(!configFile.exists())
 			this.saveDefaultConfig();
 		
-		/* Load configuration */
-		this.config = YamlConfiguration.loadConfiguration(configuration_file);
+		this.config = YamlConfiguration.loadConfiguration(configFile);
 		
-		/* Get list of rules from configuration */		
 		List<Map<?, ?>> filter_rules = this.config.getMapList("filter-rules");
 		
-		/* Iterate over rules */
 		for(Map<?, ?> map : filter_rules) {
 					
 			String rule = (String) map.get("rule");

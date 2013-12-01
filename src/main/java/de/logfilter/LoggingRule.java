@@ -2,12 +2,14 @@ package de.logfilter;
 
 import java.util.regex.Pattern;
 
+import lombok.Getter;
+
 public class LoggingRule {
 	
-	private String rule;
-	private String replacement;
+	private @Getter String rule;
+	private @Getter String replacement;
 	private boolean replace;
-	private Pattern pattern;
+	private @Getter Pattern pattern;
 	
 	public LoggingRule(String rule, boolean replace, String replacement){
 		this.rule = rule;
@@ -25,17 +27,5 @@ public class LoggingRule {
 	
 	public boolean shouldReplace() {
 		return this.replace;
-	}
-	
-	public String getRule() {
-		return this.rule;
-	}
-	
-	public String getReplacement() {
-		return this.replacement;
-	}
-	
-	public Pattern getPattern() {
-		return this.pattern;
 	}
 }

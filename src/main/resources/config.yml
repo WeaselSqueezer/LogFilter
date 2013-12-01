@@ -52,5 +52,5 @@ filter-rules:
 # Example with replacing. We're transforming the login message in this example.
 #  - rule: '([A-Za-z0-9_]{3,16})\[/(([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3}))\:([0-9]{1,5})\] logged in with entity id ([0-9]{0,}) at \(\[(.{0,})\] ([0-9-+.]{0,}), ([0-9-+.]{0,}), ([0-9-+.]{0,})\)'
 #    replace: true
-#    replacement: 'Player \1 logged in. IP: \2'
+#    replacement: 'Player $1 logged in. IP: $2'
 

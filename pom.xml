@@ -12,24 +12,37 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	</properties>
   
 	<dependencies>
+		<!-- Bukkit API -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>LATEST</version>
+			<version>1.7.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Craftbukkit -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>LATEST</version>
+			<version>1.7.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- McStats -->
 		<dependency>
 			<groupId>org.mcstats.bukkit</groupId>
 			<artifactId>metrics</artifactId>
-			<version>R7</version>
+			<version>LATEST</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>0.12.0</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
   

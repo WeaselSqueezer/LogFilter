@@ -22,6 +22,9 @@ public class LogListener implements Listener {
 		
 		String message = event.getMessage();
 		
+		if(message.startsWith("[LogFilter]"))
+			return;
+		
 		for(LoggingRule rule : LogFilter.rules) {
 			
 			Matcher matcher = rule.getPattern().matcher(message);
