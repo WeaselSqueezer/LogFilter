@@ -63,7 +63,7 @@ public class LogFilter extends JavaPlugin {
 		
 		/* Elapsed time */
 		long elapsed = System.currentTimeMillis() - time;
-		log.info("[LogFilter] LogFilter version 0.1 enabled! (" + elapsed + "ms)");
+		log.info("[LogFilter] LogFilter version " + this.getDescription().getVersion() + " enabled! (" + elapsed + "ms)");
 	}
 	
 	@Override
