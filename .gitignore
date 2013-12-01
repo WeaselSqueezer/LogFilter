@@ -1,15 +1,28 @@
-*.class
+# Maven #
+target/
+log/
+dependency-reduced-pom.xml
+
+# IntelliJ Idea #
+.idea/
+*.iml
+*.iws
+
+# Eclipse #
+.project
+.classpath
+.settings/
+
+# Mac #
+.DS_Store
+
+# Logs #
+*.log
 
 # Package Files #
 *.jar
 *.war
 *.ear
 
-# Maven
-target/
-
-# Eclipse
-.project
-.classpath
-.settings/
-bin/
+# Ignore compiled classs #
+*.class
