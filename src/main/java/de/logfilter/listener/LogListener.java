@@ -2,6 +2,8 @@ package de.logfilter.listener;
 
 import java.util.regex.Matcher;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,13 +19,22 @@ public class LogListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onLogging(LoggingEvent event) {
-		if(!LogFilter.enabled) 
+		/* Check if filtering is enabled at all */
+		if(!LogFilter.enabled) {
 			return;
+		}
 		
 		String message = event.getMessage();
 		
-		if(message.startsWith("[LogFilter]"))
+		/* Ignore all messages prefixed with [LogFilter], 
+		 * we do not want to filter our own outputs 
+		 */
+		if(message.startsWith("[LogFilter]")) {
 			return;
+		}
+		
+		/* Testing */
+		LogManager.getLogger().log(Level.INFO, "[LogFilter] Received log entry: " + message);
 		
 		for(LoggingRule rule : LogFilter.rules) {
 			
@@ -50,7 +61,10 @@ public class LogListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
-		if(!player.hasPermission("logfilter.notify"))
+		if(!player.hasPermission("logfilter.notify")) {
 			return;
+		}
+		
+		//TODO -> Notify if an update is available
 	}
 }

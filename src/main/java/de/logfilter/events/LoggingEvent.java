@@ -1,10 +1,5 @@
 package de.logfilter.events;
 
-import java.util.logging.LogRecord;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -12,13 +7,34 @@ public class LoggingEvent extends Event {
 	
 	public static final HandlerList handlers = new HandlerList();
 	
-	private @Getter LogRecord record;
-	private @Getter @Setter String message;
-	private @Getter @Setter boolean isCancelled = false;
+	private boolean isCancelled = false;
+	private boolean isModified = false;
 	
-	public LoggingEvent(LogRecord record) {
-		this.record = record;
-		this.message = record.getMessage();
+	private String message;
+	
+	public LoggingEvent(String message) {
+		this.message = message;
+	}
+	
+	public String getMessage() {
+		return this.message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+		this.isModified = true;
+	}
+	
+	public boolean isModified() {
+		return this.isModified;
+	}
+	
+	public boolean isCancelled() {
+		return this.isCancelled;
+	}
+	
+	public void setCancelled(boolean cancelled) {
+		this.isCancelled = cancelled;
 	}
 	
 	@Override
