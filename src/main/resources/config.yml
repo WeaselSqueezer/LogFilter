@@ -8,10 +8,14 @@
 #              |___/     Keep your Log clean!
 #
 
+# http://dev.bukkit.org/bukkit-plugins/logfilter/
+
 # Per default, there is no activated rule. If you want to activate a predefined rule, just remove the # at beginning of the line. 
 # If you want to add your own rules, just add it at the end. Regular expressions are used to describe the rules.
+# In the last example you can see how you can use regular expressions to modify log messages
 
 # Note: In some situations, it's useful to see all errors, so be careful with it.
+# Examples may not up to date, if rules are wrong or too old, please notify me on dev.bukkit.org
 
 #--------------#
 # Filter-Rules #

@@ -30,7 +30,7 @@ public class LogFilter extends JavaPlugin {
 	public static final int BUILD = 6;
 	
 	/* Static state booleans */
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public static boolean ENABLED = true;
 	
 	/* Configuration */

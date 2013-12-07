@@ -10,7 +10,7 @@
 
 name: LogFilter
 version: 0.6
-description: Filter log entries and keep your log clean
+description: LogFilter filters log entries and keeps your log clean
 author: DaAllexx
 
 load: STARTUP
