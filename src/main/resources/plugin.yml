@@ -31,7 +31,7 @@ permissions:
     description: Gives access to all LogFilter commands/features
     children:
       logfilter.commands: true
-      logfilter.notify: true # Note: Updater isn't implemented yet!
+      logfilter.notify: true
   logfilter.commands:
     description: Allows to execute all LogFilter commands
   logfilter.notify:
