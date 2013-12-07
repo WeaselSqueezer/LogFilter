@@ -10,23 +10,26 @@ import de.logfilter.LogFilter;
 public class LogFilterCommands implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!cmd.getName().equalsIgnoreCase("logfilter"))
+		if(!cmd.getName().equalsIgnoreCase("logfilter")) {
 			return false;
+		}
 		
-		if(!sender.hasPermission("logfilter.commands"))
+		if(!sender.hasPermission("logfilter.commands")) {
 			return false;
+		}
 		
-		if(args.length != 1)
+		if(args.length != 1) {
 			return false;
+		}
 		
 		if(args[0].equalsIgnoreCase("enable")) {
 			
-			if(LogFilter.enabled) {
+			if(LogFilter.ENABLED) {
 				sender.sendMessage(ChatColor.BOLD + "[LogFilter] LogFilter already enabled!");
 				return true;
 			}
 				
-			LogFilter.enabled = true;
+			LogFilter.ENABLED = true;
 			
 			sender.sendMessage(ChatColor.BOLD + "[LogFilter] LogFilter enabled!");
 			return true;
@@ -34,12 +37,12 @@ public class LogFilterCommands implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("disable")) {
 			
-			if(!LogFilter.enabled) {
+			if(!LogFilter.ENABLED) {
 				sender.sendMessage(ChatColor.BOLD + "[LogFilter] LogFilter is already disabled!");
 				return true;
 			}
 			
-			LogFilter.enabled = false;
+			LogFilter.ENABLED = false;
 			sender.sendMessage(ChatColor.BOLD + "[LogFilter] LogFilter disabled!");
 			return true;
 		}

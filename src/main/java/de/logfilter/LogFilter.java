@@ -4,28 +4,43 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import org.mcstats.Metrics;
 
 import de.logfilter.commands.LogFilterCommands;
+import de.logfilter.filter.ConsoleFilter;
 import de.logfilter.listener.LogListener;
 import de.logfilter.stats.Statistics;
+import de.logfilter.updater.UpdateChecker;
 
 public class LogFilter extends JavaPlugin {
 	
-	public static boolean enabled = true;
-	public static Logger log = Logger.getLogger("Minecraft");
-	public static final ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
+	/* Logger */
+	private Logger log = LogManager.getLogger();
 	
-	private LogInjector injector;
+	/* Array with all parsed rules */
+	private ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
+	
+	/* Current Plugin Build number */
+	public static final int BUILD = 6;
+	
+	/* Static state booleans */
+	public static boolean DEBUG = true;
+	public static boolean ENABLED = true;
+	
+	/* Configuration */
 	private FileConfiguration config;
-	public Statistics statistics;
 	
+	/* LogFilter Instance */
+	private static LogFilter instance = null;
+	
+	/* UpdateChecker */
+	private UpdateChecker updateChecker;
 	
 	@Override
 	public void onEnable() {
@@ -36,51 +51,48 @@ public class LogFilter extends JavaPlugin {
 		this.loadConfiguration();
 				
 		/* Injecting LogFilter */
-		try {
-			injector = new LogInjector(this.getServer().getPluginManager());
-			injector.inject();
-		} catch(Exception ex) {
-			log.severe("[LogFilter] Error while injecting filters..!");
-			return;
-		}
+		org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
+		logger.addFilter(new ConsoleFilter(this.getServer().getPluginManager()));
 		
 		/* Metrics */
 		try {
 			
 			Metrics metrics = new Metrics(this);
-			statistics = new Statistics(metrics);
+			new Statistics(metrics);
 			metrics.start();
 			
-		} catch(Exception ex) {
-			/* Ignore Exception */
-		}
+		} catch(Exception ex) {}
 		
-		/* Register listeners */
+		/* Register our listeners */
 		this.getServer().getPluginManager().registerEvents(new LogListener(), this);
 		
-		/* Register commands */
+		/* Register main command */
 		this.getCommand("logfilter").setExecutor(new LogFilterCommands());
+		
+		/* Start Update Checker */
+		this.updateChecker = new UpdateChecker(this);
+		this.updateChecker.start();
 		
 		/* Elapsed time */
 		long elapsed = System.currentTimeMillis() - time;
 		log.info("[LogFilter] LogFilter version " + this.getDescription().getVersion() + " enabled! (" + elapsed + "ms)");
+		
+		/* Set instance for static access */
+		instance = this;
 	}
 	
 	@Override
 	public void onDisable() {
-		log.info("[LogFilter] LogFilter disabled!");
-		
-		/* Remove filters */
-		log.info("[LogFilter] Remove filters..");
-		injector.remove();
-		log.info("[LogFilter] Filters removed!");
+		/* Set enabled to false */
+		LogFilter.ENABLED = false;
 	}
 	
 	private void loadConfiguration() {
 		File configFile = new File(this.getDataFolder(), "config.yml");
 		
-		if(!configFile.exists())
+		if(!configFile.exists()) {
 			this.saveDefaultConfig();
+		}
 		
 		this.config = YamlConfiguration.loadConfiguration(configFile);
 		
@@ -92,12 +104,27 @@ public class LogFilter extends JavaPlugin {
 			boolean replace = map.containsKey("replace") ? (Boolean) map.get("replace") : false;
 			
 			if(!replace) {
-				LogFilter.rules.add(new LoggingRule(rule));
+				this.rules.add(new LoggingRule(rule));
 				continue;
 			}
 			
 			String replacement = (String) map.get("replacement");
-			LogFilter.rules.add(new LoggingRule(rule, true, replacement));
+			this.rules.add(new LoggingRule(rule, true, replacement));
 		}
+	}
+	
+	public ArrayList<LoggingRule> getRules() {
+		return this.rules;
+	}
+	
+	public static LogFilter getInstance() {
+		if(instance == null) {
+			throw new IllegalStateException("LogFilter instance not Initialized!");
+		}
+		return instance;
+	}
+	
+	public UpdateChecker getUpdateChecker() {
+		return this.updateChecker;
 	}
 }

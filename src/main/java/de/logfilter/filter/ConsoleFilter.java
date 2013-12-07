@@ -9,6 +9,7 @@ import org.apache.logging.log4j.core.filter.AbstractFilter;
 import org.apache.logging.log4j.message.Message;
 import org.bukkit.plugin.PluginManager;
 
+import de.logfilter.LogFilter;
 import de.logfilter.events.LoggingEvent;
 
 public class ConsoleFilter extends AbstractFilter {
@@ -19,32 +20,47 @@ public class ConsoleFilter extends AbstractFilter {
 		this.pm = pm;
 	}
 	
-	public Result filter(String message, Level level) {
-		LoggingEvent event = new LoggingEvent(message);
+	public Result filter(String logger, String message, Level level) {
+		/* Do not filter our own filtered logger :D */
+		if(logger.equals("logfilter-modified")) {
+			return Result.ACCEPT;
+		}
+		
+		/* Ignore messages triggered from us */
+		if(message.startsWith("[LogFilter]")) {
+			return Result.ACCEPT;
+		}
+		
+		/* Create and call event */
+		LoggingEvent event = new LoggingEvent(logger, message);
 		pm.callEvent(event);
 		
 		if(event.isModified()) {
-			LogManager.getRootLogger().log(level, message);
+			LogManager.getLogger("logfilter-modified").log(level, event.getMessage());
 			return Result.DENY;
+		}
+		
+		if(event.isCancelled() && LogFilter.DEBUG) {
+			LogManager.getLogger().log(Level.WARN, "[LogFilter] Event cancelled: " + message);
 		}
 		
 		return event.isCancelled() ? Result.DENY : Result.NEUTRAL;
 	}
 
 	public Result filter(LogEvent event) {
-		return this.filter(event.getMessage().getFormattedMessage(), event.getLevel());
+		return this.filter(event.getLoggerName(), event.getMessage().getFormattedMessage(), event.getLevel());
 	}
 
 	public Result filter(Logger logger, Level level, Marker marker, String message, Object... parameters) {
-		return this.filter(message, level);
+		return this.filter(logger.getName(), message, level);
 	}
 
 	public Result filter(Logger logger, Level level, Marker marker, Object message, Throwable t) {
-		return this.filter(message.toString(), level);
+		return this.filter(logger.getName(), message.toString(), level);
 	}
 
 	public Result filter(Logger logger, Level level, Marker marker, Message message, Throwable t) {
-		return this.filter(message.getFormattedMessage(), level);
+		return this.filter(logger.getName(), message.getFormattedMessage(), level);
 	}
 
 }
