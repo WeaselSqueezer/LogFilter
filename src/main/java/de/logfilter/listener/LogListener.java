@@ -48,16 +48,16 @@ public class LogListener implements Listener {
 			
 			if(!rule.shouldReplace()) {
 				event.setCancelled(true);
-				Statistics.incrementFiltered();
+				Statistics.getInstance().incrementFiltered();
 				break;
 			}
 			
 			message = matcher.replaceAll(rule.getReplacement());
 			event.setMessage(message);
-			Statistics.incrementReplaced();
+			Statistics.getInstance().incrementReplaced();
 		}
 				
-		Statistics.incrementTotal();
+		Statistics.getInstance().incrementTotal();
 	}
 	
 	@EventHandler

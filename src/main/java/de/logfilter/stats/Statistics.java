@@ -1,62 +1,107 @@
 package de.logfilter.stats;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
 import org.mcstats.Metrics.Plotter;
 
+import de.logfilter.LogFilter;
+
 public class Statistics {
 	
-	private static long total    = 0;
-	private static long filtered = 0;
-	private static long replaced = 0;
+	/* Le logger */
+	private final Logger logger = LogManager.getLogger();
 	
+	/* LogFilter instance */
+	private LogFilter logfilter;
+	
+	/* Values */
+	private long total    = 0;
+	private long filtered = 0;
+	private long replaced = 0;
+	
+	/* Metrics instance */
 	private Metrics metrics;
 	
-	public Statistics(Metrics metrics) {
-		this.metrics = metrics;
-		this.setupGraphs();
-	}
+	/* Statistics instance */
+	private static Statistics instance = null;
 	
-	private void setupGraphs() {
-		Graph graph = metrics.createGraph("Log entries per day");
+	public Statistics(LogFilter logfilter) {
+		/* Set LogFilter instance */
+		this.logfilter = logfilter;
 		
-		graph.addPlotter(new Plotter("Total entries") {
-
-			@Override
-			public int getValue() {
-				return (int) total;
-			}
+		/* Set statistics instance */
+		instance = this;
+	}
+	
+	public void start() {
+		try {
+			/* Metrics instance */
+			this.metrics = new Metrics(this.logfilter);
 			
-		});
+			/* Check if user allows to collect data or not */
+			if(this.metrics.isOptOut()) {
+				return;
+			}
 		
-		graph.addPlotter(new Plotter("Filtered entries") {
-
-			@Override
-			public int getValue() {
-				return (int) filtered;
-			}
-			
-		});
+			/* Create Graph of filtered log entries */
+			Graph graph = metrics.createGraph("Log entries");
 		
-		graph.addPlotter(new Plotter("Replaced entries") {
+			/* Add total log entries */
+			graph.addPlotter(new Plotter("Total entries") {
 
-			@Override
-			public int getValue() {
-				return (int) replaced;
-			}
+				@Override
+				public int getValue() {
+					return (int) total;
+				}
 			
-		});
+			});
+		
+			/* Add total filtered log entries */
+			graph.addPlotter(new Plotter("Filtered entries") {
+
+				@Override
+				public int getValue() {
+					return (int) filtered;
+				}
+			
+			});
+		
+			/* Add total modified log entries */
+			graph.addPlotter(new Plotter("Replaced entries") {
+
+				@Override
+				public int getValue() {
+					return (int) replaced;
+				}
+			
+			});
+			
+			/* Start Metrics */
+			this.metrics.start();
+			
+		} catch(Throwable t) {
+			this.logger.error("[LogFilter] Could not start Metrics correctly! :(");
+		}
 	}
 	
-	public static void incrementTotal() {
-		total++;
+	public static Statistics getInstance() {
+		if(instance == null) {
+			throw new IllegalStateException("Statistics instance not Initialized!");
+		}
+		return instance;
 	}
 	
-	public static void incrementFiltered() {
-		filtered++;
+	public void incrementTotal() {
+		this.total++;
 	}
 	
-	public static void incrementReplaced() {
-		replaced++;
+	public void incrementFiltered() {
+		this.filtered++;
+	}
+	
+	public void incrementReplaced() {
+		this.replaced++;
 	}
 }

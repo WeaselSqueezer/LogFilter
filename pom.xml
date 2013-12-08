@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.logfilter</groupId>
 	<artifactId>LogFilter</artifactId>
-	<version>0.6</version>
+	<version>0.7-SNAPSHOT</version>
   
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

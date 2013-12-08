@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
 
 import de.logfilter.commands.LogFilterCommands;
 import de.logfilter.filter.ConsoleFilter;
@@ -27,7 +26,7 @@ public class LogFilter extends JavaPlugin {
 	private ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
 	
 	/* Current Plugin Build number */
-	public static final int BUILD = 6;
+	public static final int BUILD = 7;
 	
 	/* Static state booleans */
 	public static boolean DEBUG = false;
@@ -42,6 +41,9 @@ public class LogFilter extends JavaPlugin {
 	/* UpdateChecker */
 	private UpdateChecker updateChecker;
 	
+	/* Statistic Module */
+	private Statistics statistics;
+	
 	@Override
 	public void onEnable() {
 		/* Time */
@@ -54,14 +56,9 @@ public class LogFilter extends JavaPlugin {
 		org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
 		logger.addFilter(new ConsoleFilter(this.getServer().getPluginManager()));
 		
-		/* Metrics */
-		try {
-			
-			Metrics metrics = new Metrics(this);
-			new Statistics(metrics);
-			metrics.start();
-			
-		} catch(Exception ex) {}
+		/* McStats */
+		this.statistics = new Statistics(this);
+		this.statistics.start();
 		
 		/* Register our listeners */
 		this.getServer().getPluginManager().registerEvents(new LogListener(), this);
@@ -126,5 +123,9 @@ public class LogFilter extends JavaPlugin {
 	
 	public UpdateChecker getUpdateChecker() {
 		return this.updateChecker;
+	}
+	
+	public Statistics getStatistics() {
+		return this.statistics;
 	}
 }
