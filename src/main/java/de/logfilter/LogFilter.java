@@ -26,7 +26,7 @@ public class LogFilter extends JavaPlugin {
 	private ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
 	
 	/* Current Plugin Build number */
-	public static final int BUILD = 7;
+	public static final int BUILD = 6;
 	
 	/* Static state booleans */
 	public static boolean DEBUG = false;
@@ -127,5 +127,9 @@ public class LogFilter extends JavaPlugin {
 	
 	public Statistics getStatistics() {
 		return this.statistics;
+	}
+	
+	public FileConfiguration getConfiguration() {
+		return this.config;
 	}
 }

@@ -58,3 +58,11 @@ filter-rules:
 #    replace: true
 #    replacement: 'Player $1 logged in. IP: $2'
 
+#------------------#
+# Some other stuff #
+#------------------#
+
+# Should LogFilter look for updates?
+update-check: true
+
+

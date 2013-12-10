@@ -36,6 +36,13 @@ public class UpdateChecker {
 	}
 
 	public void start() {
+		/* Check if user allows updates at all */
+		if(!this.logfilter.getConfiguration().getBoolean("update-check", true)) {
+			/* Stop here! User does not want any update check! :/ */
+			return;
+		}
+		
+		/* Start Checker Task */
 		this.logfilter.getServer().getScheduler().runTaskTimerAsynchronously(this.logfilter, new Runnable() {
 
 			public void run() {

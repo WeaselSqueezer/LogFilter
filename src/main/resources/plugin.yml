@@ -9,7 +9,7 @@
 #
 
 name: LogFilter
-version: 0.7
+version: 0.6
 description: LogFilter filters log entries and keeps your log clean
 author: DaAllexx
 
