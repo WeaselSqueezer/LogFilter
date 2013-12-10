@@ -28,6 +28,9 @@ public class UpdateChecker {
 	/* Boolean if update is available or not */
 	private boolean isAvailable = false;
 	
+	/* GSON instance for JSON */
+	private Gson gson;
+	
 	/* UpdateData - if present */
 	private UpdateData updateData = null;
 	
@@ -41,6 +44,9 @@ public class UpdateChecker {
 			/* Stop here! User does not want any update check! :/ */
 			return;
 		}
+		
+		/* Initialize GSON object */
+		this.gson = new Gson();
 		
 		/* Start Checker Task */
 		this.logfilter.getServer().getScheduler().runTaskTimerAsynchronously(this.logfilter, new Runnable() {
@@ -67,8 +73,7 @@ public class UpdateChecker {
 			}
 
 			/* Parse JSON- encoded data */
-			Gson gson = new Gson();
-			UpdateData data = gson.fromJson(builder.toString(), UpdateData.class);
+			UpdateData data = this.gson.fromJson(builder.toString(), UpdateData.class);
 		
 			/* Check if an update is available */
 			if(data.getBuild() > LogFilter.BUILD) {
