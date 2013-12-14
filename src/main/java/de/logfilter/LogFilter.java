@@ -8,16 +8,15 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import de.logfilter.commands.LogFilterCommands;
 import de.logfilter.filter.ConsoleFilter;
 import de.logfilter.listener.LogListener;
 import de.logfilter.stats.Statistics;
+import de.logfilter.updater.Updatable;
 import de.logfilter.updater.UpdateChecker;
 
-public class LogFilter extends JavaPlugin {
+public class LogFilter extends Updatable {
 	
 	/* Logger */
 	private Logger log = LogManager.getLogger();
@@ -25,8 +24,11 @@ public class LogFilter extends JavaPlugin {
 	/* Array with all parsed rules */
 	private ArrayList<LoggingRule> rules = new ArrayList<LoggingRule>();
 	
-	/* Current Plugin Build number */
-	public static final int BUILD = 6;
+	/* Curse ProjectId */
+	private final int projectId = 62430;
+	
+	/* Current build number */
+	private final int buildId = 6;
 	
 	/* Static state booleans */
 	public static boolean DEBUG = false;
@@ -91,7 +93,7 @@ public class LogFilter extends JavaPlugin {
 			this.saveDefaultConfig();
 		}
 		
-		this.config = YamlConfiguration.loadConfiguration(configFile);
+		this.config = this.getConfig();
 		
 		List<Map<?, ?>> filter_rules = this.config.getMapList("filter-rules");
 		
@@ -131,5 +133,13 @@ public class LogFilter extends JavaPlugin {
 	
 	public FileConfiguration getConfiguration() {
 		return this.config;
+	}
+
+	public int getBuild() {
+		return this.buildId;
+	}
+
+	public int getProjectId() {
+		return this.projectId;
 	}
 }

@@ -17,7 +17,7 @@ import de.logfilter.LoggingRule;
 import de.logfilter.events.LoggingEvent;
 import de.logfilter.stats.Statistics;
 import de.logfilter.updater.UpdateChecker;
-import de.logfilter.updater.UpdateChecker.UpdateData;
+import de.logfilter.updater.UpdateChecker.VersionData;
 
 public class LogListener implements Listener {
 	
@@ -75,13 +75,13 @@ public class LogListener implements Listener {
 			return;
 		}
 		
-		UpdateData updateData = checker.getUpdateData();
+		VersionData latestVersion = checker.getLatestVersion();
 		
 		player.sendMessage(ChatColor.GOLD + "[LogFilter] Update available!");
 		player.sendMessage(ChatColor.GOLD + "[LogFilter] Current version: "
 								+ ChatColor.GREEN + logfilter.getDescription().getVersion()
 								+ ChatColor.GOLD + " Newest version: "
-								+ ChatColor.GREEN + updateData.getVersion());
+								+ ChatColor.GREEN + latestVersion.toString());
 		player.sendMessage(ChatColor.GOLD + "[LogFilter] Download available here: http://dev.bukkit.org/bukkit-plugins/logfilter/");
 	}
 }
