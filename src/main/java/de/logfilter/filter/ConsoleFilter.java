@@ -21,6 +21,10 @@ public class ConsoleFilter extends AbstractFilter {
 	}
 	
 	public Result filter(String logger, String message, Level level) {
+		/* Default to accept if null parameters were given */
+		if (logger == null || message == null || level == null) {
+			return Result.ACCEPT;
+		}
 		/* Do not filter our own filtered logger :D */
 		if(logger.equals("logfilter-modified")) {
 			return Result.ACCEPT;
